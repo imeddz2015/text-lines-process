@@ -14,7 +14,8 @@ import javax.swing.JOptionPane;
 
 public class SystemTrayDemo{
 	
-	public static String currentPaper = "« ENHANCING QUALITY OF SERVICE IN SOFTWARE-DEFINED NETWORKS » ";
+	public static String currentPaperTitle = "« ENHANCING QUALITY OF SERVICE IN SOFTWARE-DEFINED NETWORKS » ";
+	public static String currentPaperLink = "« ENHANCING QUALITY OF SERVICE IN SOFTWARE-DEFINED NETWORKS » ";
 
 //start of main method
 public static void main(String []args) throws FileNotFoundException{
@@ -46,18 +47,18 @@ public static void main(String []args) throws FileNotFoundException{
     action.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-        	setClipBoard(processText(getClipBoard(), false));
+        	setClipBoard(processText(getClipBoard()));
         	System.out.println("clipset!!");
         }
     });     
     trayPopupMenu.add(action);
 
     //2nd menuitem for popupmenu
-    MenuItem actionWithEnd = new MenuItem("Text + Ref");
+    MenuItem actionWithEnd = new MenuItem("Ref");
     actionWithEnd.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-        	setClipBoard(processText(getClipBoard(), true));
+        	setClipBoard(getLink());
         	System.out.println("action With End !!");
         }
     });     
@@ -68,7 +69,10 @@ public static void main(String []args) throws FileNotFoundException{
     changePaper.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-        	setClipBoard(processText(getClipBoard(), true));
+        	
+        	ref f = new ref();
+        	f.setVisible(true);
+
         	System.out.println("set Paper Bib link !!");
         }
     });     
@@ -79,6 +83,7 @@ public static void main(String []args) throws FileNotFoundException{
     close.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
+        	System.out.println("close!!!");
             System.exit(0);             
         }
     });
@@ -98,7 +103,7 @@ public static void main(String []args) throws FileNotFoundException{
 }//end of main
 
 
-public static String processText(String txt , boolean add){
+public static String processText(String txt  ){
 	
 	String[] output = txt.split("\n");
 	
@@ -122,8 +127,12 @@ public static String processText(String txt , boolean add){
 		}
 	}
 	
-	if (add) return result + "\r\n________________________________________________________________\r\n" + currentPaper ;
-	else return result ;
+	return result    ;
+	
+}
+
+static String getLink(){
+	return "<a href=\"" + currentPaperLink + "\">" + currentPaperTitle + "</a>"  ;
 }
 
 public static String getClipBoard(){
